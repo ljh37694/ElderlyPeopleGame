@@ -5,7 +5,6 @@ public class SpawnBird : MonoBehaviour {
 
 	GameObject[] birds;
 	float timer;
-	const float SPAWNINTERVAL = 5f;
 
 	void Awake() {
 		spawnPoint = GetComponentsInChildren<Transform>();
@@ -20,25 +19,34 @@ public class SpawnBird : MonoBehaviour {
 			birds[i] = bird;
 			birds[i].transform.position = spawnPoint[i].position;
 		}
+
+		spawnBird();
 	}
 
 	void Update() {
 		timer += Time.deltaTime;
 
-        if (timer > SPAWNINTERVAL) {
+		float spawnInterval = Random.Range(1, 4);
+
+        if (timer > spawnInterval) {
 			timer = 0f;
 
-			int idx;
-
-			while (true) {
-				idx = Random.Range(1, spawnPoint.Length);
-
-				if (!birds[idx].activeSelf) {
-					birds[idx].SetActive(true);
-
-					break;
-				}
-			}
+			spawnBird();
 		}
     }
+
+	void spawnBird() {
+		int idx;
+
+		// Bird가 모두 활성화 상태일 때 무한 루프를 방지하기 위해서 for문 사용
+		for (int i = 0; i < 400; i++) {
+			idx = Random.Range(1, spawnPoint.Length);
+
+			if (!birds[idx].activeSelf) {
+				birds[idx].SetActive(true);
+
+				break;
+			}
+		}
+	}
 }

@@ -2,11 +2,12 @@ using TMPro;
 using UnityEngine;
 
 public class StopWatch : MonoBehaviour {
-	public float time;
+	float time;
 	public TMP_Text timeText;
 
     void Awake() {
 		time = 0f;
+		timeText = GetComponent<TMP_Text>();
     }
 
     void Update() {
