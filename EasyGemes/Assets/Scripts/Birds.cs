@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Birds : MonoBehaviour {
 	void OnMouseEnter() {
-		gameObject.SetActive(false);
+		if (!GameManager.instance.player.isGameOver()) {
+			gameObject.SetActive(false);
 
-		GameManager.instance.score.PlusScore(100);
+			GameManager.instance.score.PlusScore(100);
+		}
 	}
 }

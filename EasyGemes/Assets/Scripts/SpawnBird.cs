@@ -28,7 +28,7 @@ public class SpawnBird : MonoBehaviour {
 
 		float spawnInterval = Random.Range(1, 4);
 
-        if (timer > spawnInterval) {
+        if (!GameManager.instance.player.isGameOver() && timer > spawnInterval) {
 			timer = 0f;
 
 			spawnBird();

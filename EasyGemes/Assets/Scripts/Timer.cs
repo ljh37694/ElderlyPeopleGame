@@ -4,23 +4,25 @@ using UnityEngine;
 public class Timer : MonoBehaviour {
 	float time;
 	public TMP_Text timeText;
+	public GameObject gameOverPanel;
 
-    void Awake() {
-		time = 60f;
+	void Awake() {
+		time = 30f;
 		timeText = GetComponent<TMP_Text>();
     }
 
     void Update() {
-		if (time <= 0f) {
-
-		} 
-
-		else {
+		if (time > 0f) {
 			time -= Time.deltaTime;
 
 			int minute = (int)time / 60, second = (int)time % 60;
 
 			timeText.text = minute.ToString("00") + ":" + second.ToString("00");
+		}
+
+		else {
+			GameManager.instance.player.setGameOver(true);
+			gameOverPanel.SetActive(true);
 		}
     }
 }
