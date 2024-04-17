@@ -22,6 +22,9 @@ public class Timer : MonoBehaviour {
 
 		else {
 			GameManager.instance.player.setGameOver(true);
+
+			if (!gameOverPanel.activeSelf)
+				GameManager.instance.sound.playGameClearSound();
 			gameOverPanel.SetActive(true);
 		}
     }

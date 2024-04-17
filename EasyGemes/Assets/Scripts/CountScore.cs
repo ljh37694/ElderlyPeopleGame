@@ -13,4 +13,6 @@ public class CountScore : MonoBehaviour {
 		score += plusScore;
 		scoreText.text = "Á¡¼ö: " + score.ToString();
 	}
+
+	public int getScore() { return score; }
 }
