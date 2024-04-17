@@ -3,12 +3,9 @@ using UnityEngine;
 public class Birds : MonoBehaviour {
 	float time;
 	const float ACTIVETIME = 5f;
-	AudioSource audioSource;
-	public AudioClip shotSound;
 
 	void Awake() {
 		time = 0f;
-		audioSource = GetComponent<AudioSource>();
 	}
 
 	void Update() {
@@ -24,9 +21,8 @@ public class Birds : MonoBehaviour {
 
 	void OnMouseEnter() {
 		if (!GameManager.instance.player.isGameOver()) {
-			audioSource.PlayOneShot(shotSound);
-
 			gameObject.SetActive(false);
+			GameManager.instance.sound.playShotSound();
 			time = 0f;
 			GameManager.instance.score.PlusScore(100);
 		}

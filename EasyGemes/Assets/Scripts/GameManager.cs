@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 	public Player player;
 	public PoolManager pool;
 	public CountScore score;
+	public SoundManager sound;
 
 	void Awake() {
 		instance = this;
