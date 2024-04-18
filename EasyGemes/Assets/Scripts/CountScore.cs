@@ -9,7 +9,7 @@ public class CountScore : MonoBehaviour {
 		score = 0;
 	}
 
-	public void PlusScore(int plusScore) {
+	public void plusScore(int plusScore) {
 		score += plusScore;
 		scoreText.text = "Á¡¼ö: " + score.ToString();
 	}

@@ -1,23 +1,25 @@
 using UnityEngine;
 
 public class SpawnBird : MonoBehaviour {
-	public Transform[] spawnPoint;
+	public Transform[] spawnPoints;
 
 	GameObject[] birds;
 	float timer;
 
 	void Awake() {
-		spawnPoint = GetComponentsInChildren<Transform>();
+		spawnPoints = GetComponentsInChildren<Transform>();
 		timer = 0f;
 
-		birds = new GameObject[spawnPoint.Length];
+		birds = new GameObject[spawnPoints.Length - 1];
 
-		for (int i = 1; i < spawnPoint.Length; i++) {
+		Debug.Log(spawnPoints.Length);
+
+		for (int i = 0; i < spawnPoints.Length - 1; i++) {
 			GameObject bird = GameManager.instance.pool.GetPrefab(Random.Range(0, 3));
 
 			bird.SetActive(false);
 			birds[i] = bird;
-			birds[i].transform.position = spawnPoint[i].position;
+			birds[i].transform.position = spawnPoints[i].position;
 		}
 
 		spawnBird();
@@ -26,12 +28,16 @@ public class SpawnBird : MonoBehaviour {
 	void Update() {
 		timer += Time.deltaTime;
 
-		float spawnInterval = Random.Range(1, 4);
+		float spawnInterval = Random.Range(0.5f, 4);
 
         if (!GameManager.instance.player.isGameOver() && timer > spawnInterval) {
 			timer = 0f;
 
 			spawnBird();
+		}
+
+		if (GameManager.instance.player.isGameOver()) {
+			allBirdDead();
 		}
     }
 
@@ -40,13 +46,22 @@ public class SpawnBird : MonoBehaviour {
 
 		// Bird가 모두 활성화 상태일 때 무한 루프를 방지하기 위해서 for문 사용
 		for (int i = 0; i < 400; i++) {
-			idx = Random.Range(1, spawnPoint.Length);
+			idx = Random.Range(1, birds.Length);
+			SpawnPoint sp = spawnPoints[idx].GetComponent<SpawnPoint>();
 
-			if (!birds[idx].activeSelf) {
+			if (sp.getReady() && !birds[idx].activeSelf) {
 				birds[idx].SetActive(true);
+				sp.setReady(false);
 
 				break;
 			}
+		}
+	}
+
+	void allBirdDead() {
+		foreach(GameObject bird in birds) {
+			if (bird.activeSelf)
+				bird.SetActive(false);
 		}
 	}
 }

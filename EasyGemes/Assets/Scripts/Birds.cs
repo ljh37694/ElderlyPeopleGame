@@ -1,30 +1,40 @@
 using UnityEngine;
 
 public class Birds : MonoBehaviour {
-	float time;
 	const float ACTIVETIME = 5f;
 
+	float time;
+
 	void Awake() {
-		time = 0f;
+		init();
 	}
 
 	void Update() {
-		if (gameObject.activeSelf) { 
-			time += Time.deltaTime;
-		}
+		time += Time.deltaTime;
 
 		if (time >= ACTIVETIME) {
-			gameObject.SetActive(false);
-			time = 0f;
+			birdRunAway();
 		}
 	}
 
 	void OnMouseEnter() {
-		if (!GameManager.instance.player.isGameOver()) {
-			gameObject.SetActive(false);
-			GameManager.instance.sound.playShotSound();
-			time = 0f;
-			GameManager.instance.score.PlusScore(100);
+		if (!GameManager.instance.player.isGameOver() && gameObject.activeSelf) {
+			birdDead();
 		}
+	}
+
+	void init() {
+		time = 0f;
+		gameObject.SetActive(false);
+	}
+
+	void birdDead() {
+		init();
+		GameManager.instance.sound.playShotSound();
+		GameManager.instance.score.plusScore(100);
+	}
+
+	void birdRunAway() {
+		init();
 	}
 }
